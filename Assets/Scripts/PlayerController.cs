@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public bool FacingLeft { get {  return facingLeft; } set { facingLeft = value; } }
     
     [SerializeField] private float moveSpeed = 1f;
+    [SerializeField] private float runSpeed = 1.5f;
     [SerializeField] private float dashSpeed = 4f;
     [SerializeField] private TrailRenderer myTrailRenderer;
 
@@ -19,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
     private bool facingLeft = false;
     private bool isDashing = false;
+    private bool isRunning = false;
 
     private void Awake()
     {
@@ -31,7 +34,10 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         playerControls.Combat.Dash.performed += _ => Dash();
+        playerControls.Movement.Run.performed += _ => RunningStateChange();
+        playerControls.Movement.Run.canceled += _ => RunningStateChange();
     }
+
 
     private void OnEnable()
     {
@@ -59,7 +65,20 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        rb.MovePosition(rb.position + movement * (moveSpeed * Time.fixedDeltaTime));
+        float currentSpeed = isRunning ? moveSpeed * runSpeed : moveSpeed;
+        rb.MovePosition(rb.position + movement * (currentSpeed * Time.fixedDeltaTime));
+    }
+
+    private void RunningStateChange()
+    {
+        if(!isRunning)
+        {
+            isRunning = true;
+        }
+        else
+        {
+            isRunning=false;
+        }
     }
 
     private void AdjustPlayerFacingDirection()

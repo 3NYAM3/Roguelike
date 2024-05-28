@@ -232,7 +232,7 @@ Transform:
   m_GameObject: {fileID: 29865183}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.86, y: 13.38, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -253,6 +253,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 4
+  runSpeed: 1.5
   dashSpeed: 4
   myTrailRenderer: {fileID: 1847239884}
 --- !u!95 &29865188
@@ -56722,7 +56723,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.86, y: 13.38, z: -10}
+  m_LocalPosition: {x: -0.09011602, y: 9.97804, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -57080,7 +57081,7 @@ Transform:
   m_GameObject: {fileID: 1605133445}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.748624, y: 13.786406, z: -10.040332}
+  m_LocalPosition: {x: 1.1113758, y: 0.40640593, z: -10.040332}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
