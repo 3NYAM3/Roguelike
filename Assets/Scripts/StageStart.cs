@@ -1,18 +1,33 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Camerafix : MonoBehaviour
+public class StageStart : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private CinemachineVirtualCamera virtualCamera;
+    [SerializeField] private PolygonCollider2D cameraConfiner;
+    [SerializeField] private GameObject door;
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("들어옴");
+
+            var confiner = virtualCamera.GetComponent<CinemachineConfiner2D>();
+            if (confiner != null)
+            {
+
+                confiner.m_BoundingShape2D = cameraConfiner;
+                confiner.InvalidateCache();
+                confiner.enabled = true;
+            }
+
+            door.SetActive(true);
+            
+            // 트리거 Collider 비활성화
+            gameObject.SetActive(false);
+        }
     }
 }
