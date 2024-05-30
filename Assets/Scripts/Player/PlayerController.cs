@@ -6,12 +6,13 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : Singleton<PlayerController>
 {
-    public bool FacingLeft { get { return facingLeft; } }//set { facingLeft = value; } }
+    public bool FacingLeft { get { return facingLeft; } }
     
     [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private float runSpeed = 1.5f;
     [SerializeField] private float dashSpeed = 4f;
     [SerializeField] private TrailRenderer myTrailRenderer;
+    [SerializeField] private Transform weaponCollider;
 
     private PlayerControls playerControls;
     private Vector2 movement;
@@ -57,6 +58,11 @@ public class PlayerController : Singleton<PlayerController>
     {
         AdjustPlayerFacingDirection();
         Move();
+    }
+
+    public Transform GetWeaponCollider()
+    {
+        return weaponCollider;
     }
 
     private void PlayerInput()
@@ -116,7 +122,7 @@ public class PlayerController : Singleton<PlayerController>
     private IEnumerator EndDashRoutine()
     {
         float dashTime = .2f;
-        float dashCD = .25f;
+        float dashCD = .4f;
         yield return new WaitForSeconds(dashTime);
         moveSpeed = startingMoveSpeed;
         myTrailRenderer.emitting=false;

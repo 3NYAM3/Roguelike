@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class ActiveInventory : MonoBehaviour
 {
-    private int activeSlotIndex = 0;
-    private int totalSlots;
-    private const float scrollThreshold = 0.1f;
+    private int activeSlotIndexNum = 0;
 
     private PlayerControls playerControls;
 
@@ -18,9 +16,8 @@ public class ActiveInventory : MonoBehaviour
     private void Start()
     {
         playerControls.Inventory.KeyBoard.performed += ctx => ToggleActiveSlot((int)ctx.ReadValue<float>());
-        playerControls.Inventory.Scroll.performed += ctx => ScrollActiveSlot(ctx.ReadValue<Vector2>());
-        totalSlots = this.transform.childCount;
-        UpdateActiveHighlight();
+
+        ToggleActiveHighlight(0);
     }
 
     private void OnEnable()
@@ -28,50 +25,47 @@ public class ActiveInventory : MonoBehaviour
         playerControls.Enable();
     }
 
-    private void OnDisable()
+    private void ToggleActiveSlot(int numValue)
     {
-        playerControls.Disable();
+        ToggleActiveHighlight(numValue - 1);
     }
 
-    private void ToggleActiveSlot(int value)
+    private void ToggleActiveHighlight(int indexNum)
     {
-        ToggleActiveHighlight(value - 1);
-    }
+        activeSlotIndexNum = indexNum;
 
-    private void ScrollActiveSlot(Vector2 value)
-    {
-        if (value.y<-scrollThreshold)
+        foreach (Transform inventorySlot in this.transform)
         {
-            activeSlotIndex = (activeSlotIndex + 1) % totalSlots;
-            UpdateActiveHighlight();
+            inventorySlot.GetChild(0).gameObject.SetActive(false);
         }
-        else if (value.y>scrollThreshold)
-        {
-            activeSlotIndex = (activeSlotIndex - 1+totalSlots) % totalSlots;
-            UpdateActiveHighlight();
-        }
-        
-    }
 
-    private void ToggleActiveHighlight(int index)
-    {
-        activeSlotIndex = index;
+        this.transform.GetChild(indexNum).GetChild(0).gameObject.SetActive(true);
 
-        UpdateActiveHighlight();
-    }
-
-    private void UpdateActiveHighlight()
-    {
-        for(int i = 0; i < totalSlots; i++)
-        {
-            this.transform.GetChild(i).GetChild(0).gameObject.SetActive(i==activeSlotIndex);
-        }
         ChangeActiveWeapon();
-
     }
 
     private void ChangeActiveWeapon()
     {
-        Debug.Log(transform.GetChild(activeSlotIndex).GetComponent<InventorySlot>().GetWeaponInfo().weaponPrefab.name);
+
+        if (ActiveWeapon.Instance.CurrentActiveWeapon != null)
+        {
+            Destroy(ActiveWeapon.Instance.CurrentActiveWeapon.gameObject);
+        }
+
+        if (!transform.GetChild(activeSlotIndexNum).GetComponentInChildren<InventorySlot>())
+        {
+            ActiveWeapon.Instance.WeaponNull();
+            return;
+        }
+
+        GameObject weaponToSpawn = transform.GetChild(activeSlotIndexNum).
+        GetComponentInChildren<InventorySlot>().GetWeaponInfo().weaponPrefab;
+
+        GameObject newWeapon = Instantiate(weaponToSpawn, ActiveWeapon.Instance.transform.position, Quaternion.identity);
+
+        ActiveWeapon.Instance.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        newWeapon.transform.parent = ActiveWeapon.Instance.transform;
+
+        ActiveWeapon.Instance.NewWeapon(newWeapon.GetComponent<MonoBehaviour>());
     }
 }

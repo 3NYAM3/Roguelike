@@ -8,6 +8,6 @@ public class InventorySlot : MonoBehaviour
 
     public WeaponInfo GetWeaponInfo()
     {
-        return weaponInfo; 
+        return weaponInfo;
     }
 }

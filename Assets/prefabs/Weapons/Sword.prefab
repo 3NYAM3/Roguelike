@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.23003086, w: 0.9731834}
   m_LocalPosition: {x: 0.158, y: 0.256, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -119,7 +119,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d52bef70a56d87140a32c4a2c462486c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slashAniPrefab: {fileID: 3465674311057527035, guid: 2b52e95d914f5404ead573358019f565, type: 3}
-  slashAniSpawnPoint: {fileID: 0}
-  weaponCollider: {fileID: 0}
-  attackDelay: 0.7
+  slashAnimPrefab: {fileID: 3465674311057527035, guid: 2b52e95d914f5404ead573358019f565, type: 3}
+  slashAnimSpawnPoint: {fileID: 2333107319896927900, guid: 2b52e95d914f5404ead573358019f565, type: 3}
+  weaponInfo: {fileID: 11400000, guid: 8155cb718fcc8de498948159ac155227, type: 2}
