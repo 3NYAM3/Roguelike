@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Singleton<PlayerController>
 {
-    public bool FacingLeft { get {  return facingLeft; } set { facingLeft = value; } }
+    public bool FacingLeft { get { return facingLeft; } }//set { facingLeft = value; } }
     
     [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private float runSpeed = 1.5f;
@@ -18,13 +18,16 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator myAnimator;
     private SpriteRenderer mySpriteRenderer;
+    private float startingMoveSpeed;
 
     private bool facingLeft = false;
     private bool isDashing = false;
     private bool isRunning = false;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         playerControls = new PlayerControls();
         rb = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
@@ -36,6 +39,7 @@ public class PlayerController : MonoBehaviour
         playerControls.Combat.Dash.performed += _ => Dash();
         playerControls.Movement.Run.performed += _ => RunningStateChange();
         playerControls.Movement.Run.canceled += _ => RunningStateChange();
+        startingMoveSpeed = moveSpeed;
     }
 
 
@@ -114,7 +118,7 @@ public class PlayerController : MonoBehaviour
         float dashTime = .2f;
         float dashCD = .25f;
         yield return new WaitForSeconds(dashTime);
-        moveSpeed /=dashSpeed;
+        moveSpeed = startingMoveSpeed;
         myTrailRenderer.emitting=false;
         yield return new WaitForSeconds(dashCD);
         isDashing=false;

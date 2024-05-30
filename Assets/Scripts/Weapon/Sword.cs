@@ -2,40 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sword : MonoBehaviour
+public class Sword : MonoBehaviour, IWeapon
 {
     [SerializeField] private GameObject slashAniPrefab;
     [SerializeField] private Transform slashAniSpawnPoint;
     [SerializeField] private Transform weaponCollider;
-    [SerializeField] private float attackDelay = 0.7f;
+    [SerializeField] private float attackDelay = .7f;
 
-    private PlayerControls playerControls;
     private Animator myAnimator;
     private PlayerController playerController;
     private ActiveWeapon activeWeapon;
 
     private GameObject slashAni;
-    private DamageSource damageSource;
-
-    private bool canAttack = true;
 
     private void Awake()
     {
         playerController = GetComponentInParent<PlayerController>();
         activeWeapon = GetComponentInParent<ActiveWeapon>();
         myAnimator = GetComponent<Animator>();
-        playerControls = new PlayerControls();
-        damageSource = weaponCollider.GetComponent<DamageSource>();
-    }
-
-    private void OnEnable()
-    {
-        playerControls.Enable();
-    }
-
-    private void Start()
-    {
-        playerControls.Combat.Attack.started += _ => AttemptAttack();
     }
 
     private void Update()
@@ -43,28 +27,19 @@ public class Sword : MonoBehaviour
         MouseFollowWithOffset();
     }
 
-    private void AttemptAttack()
+    public void Attack()
     {
-        if(canAttack) {
-            StartCoroutine(Attack());
-        }
-        
-    }
-
-    private IEnumerator Attack()
-    {
-        canAttack = false;
         myAnimator.SetTrigger("Attack");
         weaponCollider.gameObject.SetActive(true);
-        damageSource.StartAttack();
-
         slashAni = Instantiate(slashAniPrefab, slashAniSpawnPoint.position, Quaternion.identity);
         slashAni.transform.parent = this.transform.parent;
+        StartCoroutine(AttackDelay());
+    }
 
+    private IEnumerator AttackDelay()
+    {
         yield return new WaitForSeconds(attackDelay);
-
-        canAttack = true;
-        damageSource.EndAttack();
+        ActiveWeapon.Instance.ToggleIsAttacking(false);
     }
 
     public void DoneAttackingAniEvent()
