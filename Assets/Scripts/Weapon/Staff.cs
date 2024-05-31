@@ -26,8 +26,25 @@ public class Staff : MonoBehaviour ,IWeapon
     public void Attack()
     {
         Debug.Log("Staff Attack");
+
+        Vector3 mousePos = Input.mousePosition;
+        Vector3 playerScreenPoint = Camera.main.WorldToScreenPoint(PlayerController.Instance.transform.position);
+
+        Vector2 direction = mousePos - playerScreenPoint;
+
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
         myAnimator.SetTrigger(AttackHash);
-        GameObject newMagic = Instantiate(magicOrbPrefab, magicOrbSpawnPoint.position, Quaternion.identity /* ,--이거지우고 각도 다시 써야함 조준이 이상하게 돼서*/);
+        GameObject newMagic;
+        if (mousePos.x < playerScreenPoint.x)
+        {
+            newMagic = Instantiate(magicOrbPrefab, magicOrbSpawnPoint.position, Quaternion.Euler(0, 0, angle + 8.75f));
+        }
+        else
+        {
+            newMagic = Instantiate(magicOrbPrefab, magicOrbSpawnPoint.position, Quaternion.Euler(0, 0, angle - 5.8f));
+        }
+        
         newMagic.GetComponent<Projectile>().UpdateWeaponInfo(weaponInfo);
     }
 

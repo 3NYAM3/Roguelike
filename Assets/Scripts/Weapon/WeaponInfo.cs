@@ -9,4 +9,5 @@ public class WeaponInfo : ScriptableObject
     public float weaponCooldown;
     public float weaponDamage;
     public float weaponRange;
+    public bool isHoming=false;
 }

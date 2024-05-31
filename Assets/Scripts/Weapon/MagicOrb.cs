@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class MagicOrb : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private float detectionRange;
+
+    public float DetectionRange
     {
-        
+        get { return detectionRange; }
+        private set { detectionRange = value; }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
