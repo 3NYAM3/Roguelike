@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    [SerializeField] private int startingHp = 3;
+    [SerializeField] private float startingHp = 3f;
 
-    private int currentHp;
+    private float currentHp;
 
     private void Start()
     {
         currentHp = startingHp;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         currentHp -= damage;
         Debug.Log(currentHp);

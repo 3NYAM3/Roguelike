@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bow : MonoBehaviour, IWeapon
+public class Staff : MonoBehaviour ,IWeapon
 {
     [SerializeField] private WeaponInfo weaponInfo;
-    [SerializeField] private GameObject arrowPrefab;
-    [SerializeField] private Transform arrowSpawnPoint;
+    [SerializeField] private GameObject magicOrbPrefab;
+    [SerializeField] private Transform magicOrbSpawnPoint;
 
-    readonly int FIRE_HASH = Animator.StringToHash("Fire");
     private Animator myAnimator;
+
+    readonly int AttackHash = Animator.StringToHash("Casting");
+
 
     private void Awake()
     {
@@ -20,11 +22,13 @@ public class Bow : MonoBehaviour, IWeapon
     {
         MouseFollowWithOffset();
     }
+
     public void Attack()
     {
-        myAnimator.SetTrigger(FIRE_HASH);
-        GameObject newArrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, ActiveWeapon.Instance.transform.rotation);
-        newArrow.GetComponent<Projectile>().UpdateWeaponInfo(weaponInfo);
+        Debug.Log("Staff Attack");
+        myAnimator.SetTrigger(AttackHash);
+        GameObject newMagic = Instantiate(magicOrbPrefab, magicOrbSpawnPoint.position, Quaternion.identity /* ,--이거지우고 각도 다시 써야함 조준이 이상하게 돼서*/);
+        newMagic.GetComponent<Projectile>().UpdateWeaponInfo(weaponInfo);
     }
 
     public WeaponInfo GetWeaponInfo()
@@ -37,12 +41,11 @@ public class Bow : MonoBehaviour, IWeapon
         Vector3 mousePos = Input.mousePosition;
         Vector3 playerScreenPoint = Camera.main.WorldToScreenPoint(PlayerController.Instance.transform.position);
 
-        Vector2 direction = mousePos - playerScreenPoint;
+        float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
 
-        float angle = Mathf.Atan2(direction.y, direction.x)*Mathf.Rad2Deg;
         if (mousePos.x < playerScreenPoint.x)
         {
-            ActiveWeapon.Instance.transform.rotation = Quaternion.Euler(0, 180, 180-angle);
+            ActiveWeapon.Instance.transform.rotation = Quaternion.Euler(0, -180, angle);
         }
         else
         {
