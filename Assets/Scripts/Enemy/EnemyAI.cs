@@ -22,19 +22,20 @@ public class EnemyAI : MonoBehaviour {
     private IEnemy enemyAttack;
     private float distanceToPlayer;
     private float ShooterFleeRange;
+    private Knockback knockback;
 
 
 
     private void Awake() {
+        knockback = GetComponent<Knockback>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         switch (enemyInfo.attackType) {
-            default:
-            case AttackType.Charger:
+            /*case AttackType.Charger:
                 Charger charger = gameObject.GetComponent<Charger>();
                 charger.EnemyInfo = enemyInfo;
                 enemyAttack = charger;
-                break;
+                break;*/
             case AttackType.Shooter:
                 Shooter shooter = gameObject.GetComponent<Shooter>();
                 shooter.EnemyInfo = enemyInfo;
@@ -50,6 +51,8 @@ public class EnemyAI : MonoBehaviour {
                 mover.EnemyInfo = enemyInfo;
                 enemyAttack = mover;
                 break;
+            default:
+                break;
 
         }
 
@@ -57,16 +60,14 @@ public class EnemyAI : MonoBehaviour {
     }
 
     private void Update() {
+        if (knockback.GettingKnockedBack) { return; }
         distanceToPlayer = Vector3.Distance(transform.position, PlayerController.Instance.transform.position);
         MovementStateControl();
         LookAtPlayer();
     }
+   
 
-    /*private void FixedUpdate() {
-        if (state == State.Move) {
-            
-        }
-    }*/
+
 
     private void MovementStateControl() {
         switch (state) {
@@ -119,8 +120,8 @@ public class EnemyAI : MonoBehaviour {
                 state = State.Attacking;
             }
 
-        } else if (enemyInfo.attackType == AttackType.Charger) {
-            state = State.Attacking;
+        /*} else if (enemyInfo.attackType == AttackType.Charger) {
+            state = State.Attacking;*/
         } else if (enemyInfo.attackType == AttackType.Mover) {
             rb.velocity = direction * enemyInfo.enemySpeed;
         }
@@ -138,8 +139,10 @@ public class EnemyAI : MonoBehaviour {
     }
 
     private void Attacking() {
-        animator.SetTrigger("Stopping");
         enemyAttack.Attack();
+    }
+
+    private void SetMoving() {
         state = State.Move;
     }
 

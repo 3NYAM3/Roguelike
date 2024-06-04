@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 502af847a7ab38543b5e0e95e7731b30, type: 3}
-  m_Name: Slime(Charger)
+  m_Name: Bomb
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 1200029366877226313, guid: a04931b3fd07fd042bcf6a25eb3396f4, type: 3}
-  enemyDamage: 5
-  enemySpeed: 3
-  attackType: 0
-  attackDelay: 3
-  attackRange: 4
-  explosionRange: 0
+  enemyPrefab: {fileID: 7798460572522500125, guid: 08a53d85df3618541b8d7a3124160251, type: 3}
+  enemyDamage: 30
+  enemySpeed: 5
+  attackType: 1
+  attackDelay: 0
+  attackRange: 0.7
+  explosionRange: 5

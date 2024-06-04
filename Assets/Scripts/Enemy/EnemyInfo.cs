@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum AttackType {
-    Charger,
     Shooter,
     Boomer,
     Mover
+    //,Charger
 }
 
 [CreateAssetMenu(menuName = "NewEnemy")]

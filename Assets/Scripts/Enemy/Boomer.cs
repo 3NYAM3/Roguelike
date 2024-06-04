@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Boomer : MonoBehaviour, IEnemy {
+    [SerializeField] private GameObject explosionVFX;
+
     private EnemyInfo enemyInfo;
     private Animator boomAnimator;
-    private GameObject explosionIndicator;
+    private GameObject explosionWarn;
+    private Rigidbody2D rb;
+    private Flash flash;
+    
     public EnemyInfo EnemyInfo {
         private get {
             return enemyInfo;
@@ -15,21 +20,20 @@ public class Boomer : MonoBehaviour, IEnemy {
         }
     }
     private void Awake() {
-        Animator boomAnimator = GetComponent<Animator>();
-        explosionIndicator = transform.GetChild(0).gameObject;
-        explosionIndicator.SetActive(false);
+        flash =GetComponent<Flash>();
+        rb = GetComponent<Rigidbody2D>();
+        boomAnimator = GetComponent<Animator>();
+        explosionWarn = transform.GetChild(0).gameObject;
+        explosionWarn.SetActive(false);
     }
 
     public void Attack() {
-        StartCoroutine(BoomerAttack());
+        rb.velocity = Vector3.zero;
+        boomAnimator.SetTrigger("PrepareExplosion");
     }
 
-    private IEnumerator BoomerAttack() {
-        explosionIndicator.SetActive(true);
-
-        boomAnimator.SetTrigger("PrepareExplosion");
-        yield return new WaitForSeconds(2.0f);
-
+    private void BoomerAttack() {
+        flash.StartedExplosion = true;
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, enemyInfo.explosionRange);
         foreach(var hitCollider in hitColliders) {
             if (hitCollider.CompareTag("Player")) {
@@ -37,7 +41,10 @@ public class Boomer : MonoBehaviour, IEnemy {
             }
         }
 
+        GameObject vfx = Instantiate(explosionVFX, transform.position, Quaternion.identity);
+
         Destroy(gameObject);
+        Destroy(vfx, 1f);
 
     }
 

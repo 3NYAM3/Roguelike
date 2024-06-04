@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae7fd50acd5c5374380b954431f3abe6, type: 3}
   m_Name: Staff
   m_EditorClassIdentifier: 
+  weaponName: Staff
   weaponPrefab: {fileID: 6423391148019003404, guid: 198a39bec51098549820bcab3fc3619b, type: 3}
   weaponCooldown: 0.7
   weaponDamage: 6
