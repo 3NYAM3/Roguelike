@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "New Weapon")]
-public class WeaponInfo : ScriptableObject
-{
+public class WeaponInfo : ScriptableObject {
     public GameObject weaponPrefab;
     public float weaponCooldown;
     public float weaponDamage;
     public float weaponRange;
-    public bool isHoming=false;
+    public bool isHoming = false;
 }
