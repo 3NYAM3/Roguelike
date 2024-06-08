@@ -6,12 +6,18 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 25f;
     [SerializeField] private GameObject particleOnHitPrefabVFX;
+    [SerializeField] private bool isEnemyProjectile = false;
 
+    private EnemyInfo enemyInfo;
     private WeaponInfo weaponInfo;
     private Vector3 startPosition;
     private Transform target;
     private MagicOrb magicOrb;
+    
 
+    private void Awake() {
+       // enemyInfo = GetComponent<EnemyInfo>();
+    }
     private void Start()
     {
         startPosition = transform.position;
@@ -44,16 +50,23 @@ public class Projectile : MonoBehaviour
     {
         EnemyHealth enemyHealth  = collision.gameObject.GetComponent<EnemyHealth>();
         Indestructible indestructible = collision.gameObject.GetComponent<Indestructible>();
+        PlayerHealth player = collision.gameObject.GetComponent<PlayerHealth>();
 
-        if(!collision.isTrigger && (enemyHealth|| indestructible))
+
+        if(!collision.isTrigger && (enemyHealth || indestructible || player))
         {
-            if(particleOnHitPrefabVFX != null)
-            {
+            if ((player && isEnemyProjectile)|| (enemyHealth && !isEnemyProjectile)) {
+                player?.TakeDamage(enemyInfo.enemyDamage, transform);
+                GameObject vfx=Instantiate(particleOnHitPrefabVFX, transform.position, transform.rotation);
+                Destroy(vfx,1f);
+                Destroy(gameObject);
+            } else if (!collision.isTrigger && indestructible) {
                 GameObject vfx = Instantiate(particleOnHitPrefabVFX, transform.position, transform.rotation);
                 Destroy(vfx, 1f);
+                Destroy(gameObject);
             }
             
-            Destroy(gameObject);
+            
         }
     }
 

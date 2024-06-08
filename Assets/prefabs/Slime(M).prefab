@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 2289773278022125766}
   - component: {fileID: -5212798286987597425}
   - component: {fileID: 1416020983539109688}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Slime(M)
   m_TagString: Enemy
   m_Icon: {fileID: 0}

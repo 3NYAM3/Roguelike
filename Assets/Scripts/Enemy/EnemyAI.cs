@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour {
     [SerializeField] private PolygonCollider2D room;
-    [SerializeField] private EnemyInfo enemyInfo;
+    [SerializeField] public EnemyInfo enemyInfo;
 
 
 

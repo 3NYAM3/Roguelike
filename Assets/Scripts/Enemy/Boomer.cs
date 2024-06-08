@@ -48,9 +48,4 @@ public class Boomer : MonoBehaviour, IEnemy {
 
     }
 
-    private void OnDrawGizmosSelected() {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, enemyInfo.explosionRange);
-    }
-
 }
