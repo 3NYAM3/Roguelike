@@ -10,14 +10,8 @@ public class Flash : MonoBehaviour
     private Material defaultMat;
     private SpriteRenderer spriteRenderer;
     private EnemyHealth enemyHealth;
-    private bool startedExplosion=false;
-
-    public bool StartedExplosion {
-        set { startedExplosion =value; }
-        private get {
-            return startedExplosion;
-        } 
-    }
+    public bool StartedExplosion=false;
+        
 
     private void Awake() {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -28,7 +22,7 @@ public class Flash : MonoBehaviour
     }
 
     public IEnumerator FlashRoutine() {
-        if(!startedExplosion) {
+        if(!StartedExplosion) {
             spriteRenderer.material = whiteFlash;
             yield return new WaitForSeconds(restoreDefaultMatTime);
             spriteRenderer.material = defaultMat;

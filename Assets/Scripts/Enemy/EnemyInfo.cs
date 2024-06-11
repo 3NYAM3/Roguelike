@@ -6,7 +6,7 @@ public enum AttackType {
     Shooter,
     Boomer,
     Mover
-    //,Charger
+    
 }
 
 [CreateAssetMenu(menuName = "NewEnemy")]

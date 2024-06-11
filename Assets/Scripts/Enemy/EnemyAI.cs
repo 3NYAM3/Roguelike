@@ -1,13 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 public class EnemyAI : MonoBehaviour {
     [SerializeField] private PolygonCollider2D room;
     [SerializeField] public EnemyInfo enemyInfo;
 
-
+    private bool canAttack = true;
 
 
     private enum State {
@@ -21,7 +23,7 @@ public class EnemyAI : MonoBehaviour {
     private State state;
     private IEnemy enemyAttack;
     private float distanceToPlayer;
-    private float ShooterFleeRange;
+    private float ShooterFleeRange = 5f;
     private Knockback knockback;
 
 
@@ -31,11 +33,6 @@ public class EnemyAI : MonoBehaviour {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         switch (enemyInfo.attackType) {
-            /*case AttackType.Charger:
-                Charger charger = gameObject.GetComponent<Charger>();
-                charger.EnemyInfo = enemyInfo;
-                enemyAttack = charger;
-                break;*/
             case AttackType.Shooter:
                 Shooter shooter = gameObject.GetComponent<Shooter>();
                 shooter.EnemyInfo = enemyInfo;
@@ -60,12 +57,15 @@ public class EnemyAI : MonoBehaviour {
     }
 
     private void Update() {
+        
+        LookAtPlayer();
+    }
+
+    private void FixedUpdate() {
         if (knockback.GettingKnockedBack) { return; }
         distanceToPlayer = Vector3.Distance(transform.position, PlayerController.Instance.transform.position);
         MovementStateControl();
-        LookAtPlayer();
     }
-   
 
 
 
@@ -76,7 +76,6 @@ public class EnemyAI : MonoBehaviour {
                 StandbyState();
                 break;
             case State.Move:
-                StopAllCoroutines();
                 animator.SetTrigger("Moving");
                 Moving();
                 break;
@@ -100,17 +99,17 @@ public class EnemyAI : MonoBehaviour {
     private void Moving() {
 
         Vector3 direction = (PlayerController.Instance.transform.position - transform.position).normalized;
-        rb.velocity = direction * enemyInfo.enemySpeed;
+
 
         if (enemyInfo.attackType == AttackType.Shooter) {
-            if (distanceToPlayer <= ShooterFleeRange) {
+            if (distanceToPlayer <= enemyInfo.attackRange && distanceToPlayer > ShooterFleeRange) {
+                state = State.Attacking;
+            } else if (distanceToPlayer <= ShooterFleeRange) {
                 direction = (transform.position - PlayerController.Instance.transform.position).normalized;
                 rb.velocity = direction * enemyInfo.enemySpeed;
-            } else if (distanceToPlayer > enemyInfo.attackRange - 3) {
+            } else if (distanceToPlayer > enemyInfo.attackRange) {
+                direction = (PlayerController.Instance.transform.position - transform.position).normalized;
                 rb.velocity = direction * enemyInfo.enemySpeed;
-                if (distanceToPlayer > enemyInfo.attackRange) {
-                    state = State.Attacking;
-                }
             }
 
         } else if (enemyInfo.attackType == AttackType.Boomer) {
@@ -119,9 +118,6 @@ public class EnemyAI : MonoBehaviour {
             } else {
                 state = State.Attacking;
             }
-
-        /*} else if (enemyInfo.attackType == AttackType.Charger) {
-            state = State.Attacking;*/
         } else if (enemyInfo.attackType == AttackType.Mover) {
             rb.velocity = direction * enemyInfo.enemySpeed;
         }
@@ -139,14 +135,27 @@ public class EnemyAI : MonoBehaviour {
     }
 
     private void Attacking() {
-        enemyAttack.Attack();
+        if (enemyInfo.attackType == AttackType.Boomer) {
+            enemyAttack.Attack();
+
+            return;
+        }
+        if (enemyInfo.attackRange != 0 && canAttack) {
+
+            canAttack = false;
+            enemyAttack.Attack();
+            SetMoving();
+            Moving();
+            StartCoroutine(AttackCooldownRoutine());
+        }
+    }
+
+    private IEnumerator AttackCooldownRoutine() {
+        yield return new WaitForSeconds(enemyInfo.attackDelay);
+        canAttack = true;
     }
 
     private void SetMoving() {
         state = State.Move;
     }
-
-
-
-
 }

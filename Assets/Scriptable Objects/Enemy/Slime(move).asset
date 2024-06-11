@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Slime(move)
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 5824884449102961960, guid: f61745a4ebd92d445a67f82a52c10944, type: 3}
-  enemyDamage: 5
+  enemyDamage: 7
   enemySpeed: 2.5
   attackType: 2
   attackDelay: 5

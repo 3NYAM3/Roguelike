@@ -1,9 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PickUp : MonoBehaviour
 {
+
+    private enum PickUpType {
+        Coin,
+        HPOrb,
+        Cube
+    }
+    [SerializeField] private PickUpType pickUpType;
     [SerializeField] private float pickUpDistance = 5f;
     [SerializeField] private float accelartionRate = .2f;
     [SerializeField] private float moveSpeed = 3f;
@@ -14,6 +22,10 @@ public class PickUp : MonoBehaviour
     private Vector3 moveDir;
     private Rigidbody2D rb;
     private bool canMove = false;
+
+ 
+
+    const string COIN_AMOUNT_TEXT = "COIN AMOUNT TEXT";
 
     private void Awake()
     {
@@ -62,6 +74,7 @@ public class PickUp : MonoBehaviour
     {
         if (other.gameObject.GetComponent<PlayerController>())
         {
+            DetectPickupType();
             Destroy(gameObject);
         }
     }
@@ -88,7 +101,21 @@ public class PickUp : MonoBehaviour
         }
 
         canMove = true;
+    }
 
-        
+    private void DetectPickupType() {
+        switch(pickUpType) {
+            case PickUpType.Coin:
+                CoinManager.Instance.UPdateCurrentCoin();
+                Debug.Log("Coin");
+                break;
+            case PickUpType.HPOrb:
+                PlayerHealth.Instance.HpOrbGet();
+                Debug.Log(" HPorb");
+                break;
+            case PickUpType.Cube:
+                Debug.Log(" Cube");
+                break;
+        }
     }
 }

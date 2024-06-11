@@ -19,7 +19,7 @@ public class Shooter : MonoBehaviour, IEnemy {
     public void Attack() {
         Vector2 targetDirction = PlayerController.Instance.transform.position-transform.position;
         GameObject newBullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-        newBullet.transform.right = targetDirction;
+        newBullet.GetComponent<EnemyProjectile>().UpdateEnemyInfo(enemyInfo);
     }
 
 }

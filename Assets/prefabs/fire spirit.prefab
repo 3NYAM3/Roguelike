@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 2529509703561697542}
   m_Layer: 0
   m_Name: fire spirit
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34,7 +34,7 @@ Transform:
   m_GameObject: {fileID: 1762866141565127577}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 37.31987, y: -1.863235, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: 1364406477, guid: a2a2836288d80ec4497c8a8e9fda3e98, type: 3}
+  m_Sprite: {fileID: 660098327, guid: 97271db41d7775846b98d066280f846b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -124,8 +124,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.025384903, y: 0.076159716}
-  m_Size: {x: 0.651844, y: 0.8259206}
+  m_Offset: {x: -0.025384903, y: 0.0090065}
+  m_Size: {x: 0.651844, y: 0.960227}
   m_Direction: 0
 --- !u!50 &8729526479234438295
 Rigidbody2D:
@@ -152,7 +152,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &3790859458080342381
 MonoBehaviour:
@@ -166,8 +166,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bbd596d107adc14d8b6da188a2480fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHp: 3
-  deathVFXPrefab: {fileID: 0}
+  startingHp: 50
+  deathVFXPrefab: {fileID: 7199235542355858664, guid: 9592a71cb8010b24a92c88476bc853fc, type: 3}
 --- !u!114 &8443970377910695500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,8 +207,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d016700d70dbf884e986e5edaac06200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  whiteFlash: {fileID: 2100000, guid: d8b960d4048e3da4d943ef7633adda0c, type: 2}
+  whiteFlash: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
   restoreDefaultMatTime: 0.2
+  StartedExplosion: 0
 --- !u!114 &7656114196650772205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,7 +233,7 @@ Animator:
   m_GameObject: {fileID: 1762866141565127577}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5b56af728cd500743b54e8d8afb276d2, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

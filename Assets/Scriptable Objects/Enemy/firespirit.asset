@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 502af847a7ab38543b5e0e95e7731b30, type: 3}
   m_Name: firespirit
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 0}
-  enemyDamage: 3
+  enemyPrefab: {fileID: 1762866141565127577, guid: 2e81e66622d4d134686d19b0c6aec37d, type: 3}
+  enemyDamage: 6
   enemySpeed: 2.5
   attackType: 0
-  attackDelay: 5
-  attackRange: 5
+  attackDelay: 3
+  attackRange: 11
   explosionRange: 0

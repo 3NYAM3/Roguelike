@@ -39,6 +39,8 @@ public class EnemyHealth : MonoBehaviour
     {
         if (currentHp <= 0)
         {
+            GameObject vfx = Instantiate(deathVFXPrefab, transform.position, Quaternion.identity);
+            Destroy(vfx,1f);
             Destroy(gameObject);
         }
     }

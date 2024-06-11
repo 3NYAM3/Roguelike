@@ -253,6 +253,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHp: 100
+  deathVFXPrefab: {fileID: 7199235542355858664, guid: 3fdc51dfd590fb842b71d77324c7bd5b, type: 3}
 --- !u!95 &7230732098413401458
 Animator:
   serializedVersion: 5
@@ -288,6 +289,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   room: {fileID: 0}
   enemyInfo: {fileID: 11400000, guid: 634e231715b0fa54a94b369de497b908, type: 2}
+  stopMovingWhileAttacking: 0
 --- !u!114 &2289773278022125766
 MonoBehaviour:
   m_ObjectHideFlags: 0
