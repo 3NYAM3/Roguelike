@@ -221,6 +221,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "MoveObject",
+            "id": "a7efe644-a70c-4117-bf30-5c4e98b718cc",
+            "actions": [
+                {
+                    "name": "MoveObject",
+                    "type": "Button",
+                    "id": "385704d1-e7dc-46e0-911e-9fd078f7b7dc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2d586860-aa68-45c8-8d2c-9de86a64a21a",
+                    "path": "<Keyboard>/leftCtrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveObject",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

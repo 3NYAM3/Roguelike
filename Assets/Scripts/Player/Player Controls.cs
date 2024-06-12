@@ -243,6 +243,34 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""MoveObject"",
+            ""id"": ""a7efe644-a70c-4117-bf30-5c4e98b718cc"",
+            ""actions"": [
+                {
+                    ""name"": ""MoveObject"",
+                    ""type"": ""Button"",
+                    ""id"": ""385704d1-e7dc-46e0-911e-9fd078f7b7dc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""2d586860-aa68-45c8-8d2c-9de86a64a21a"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveObject"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -259,6 +287,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Inventory = asset.FindActionMap("Inventory", throwIfNotFound: true);
         m_Inventory_KeyBoard = m_Inventory.FindAction("KeyBoard", throwIfNotFound: true);
         m_Inventory_Scroll = m_Inventory.FindAction("Scroll", throwIfNotFound: true);
+        // MoveObject
+        m_MoveObject = asset.FindActionMap("MoveObject", throwIfNotFound: true);
+        m_MoveObject_MoveObject = m_MoveObject.FindAction("MoveObject", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -478,6 +509,52 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         }
     }
     public InventoryActions @Inventory => new InventoryActions(this);
+
+    // MoveObject
+    private readonly InputActionMap m_MoveObject;
+    private List<IMoveObjectActions> m_MoveObjectActionsCallbackInterfaces = new List<IMoveObjectActions>();
+    private readonly InputAction m_MoveObject_MoveObject;
+    public struct MoveObjectActions
+    {
+        private @PlayerControls m_Wrapper;
+        public MoveObjectActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @MoveObject => m_Wrapper.m_MoveObject_MoveObject;
+        public InputActionMap Get() { return m_Wrapper.m_MoveObject; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MoveObjectActions set) { return set.Get(); }
+        public void AddCallbacks(IMoveObjectActions instance)
+        {
+            if (instance == null || m_Wrapper.m_MoveObjectActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MoveObjectActionsCallbackInterfaces.Add(instance);
+            @MoveObject.started += instance.OnMoveObject;
+            @MoveObject.performed += instance.OnMoveObject;
+            @MoveObject.canceled += instance.OnMoveObject;
+        }
+
+        private void UnregisterCallbacks(IMoveObjectActions instance)
+        {
+            @MoveObject.started -= instance.OnMoveObject;
+            @MoveObject.performed -= instance.OnMoveObject;
+            @MoveObject.canceled -= instance.OnMoveObject;
+        }
+
+        public void RemoveCallbacks(IMoveObjectActions instance)
+        {
+            if (m_Wrapper.m_MoveObjectActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IMoveObjectActions instance)
+        {
+            foreach (var item in m_Wrapper.m_MoveObjectActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_MoveObjectActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public MoveObjectActions @MoveObject => new MoveObjectActions(this);
     public interface IMovementActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -492,5 +569,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     {
         void OnKeyBoard(InputAction.CallbackContext context);
         void OnScroll(InputAction.CallbackContext context);
+    }
+    public interface IMoveObjectActions
+    {
+        void OnMoveObject(InputAction.CallbackContext context);
     }
 }

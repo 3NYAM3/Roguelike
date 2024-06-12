@@ -498,6 +498,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whiteFlash: {fileID: 0}
   restoreDefaultMatTime: 0
+  StartedExplosion: 0
 --- !u!114 &2548716776077992410
 MonoBehaviour:
   m_ObjectHideFlags: 0

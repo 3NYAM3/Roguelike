@@ -289,7 +289,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   room: {fileID: 0}
   enemyInfo: {fileID: 11400000, guid: 634e231715b0fa54a94b369de497b908, type: 2}
-  stopMovingWhileAttacking: 0
 --- !u!114 &2289773278022125766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,8 +326,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d016700d70dbf884e986e5edaac06200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  whiteFlash: {fileID: 2100000, guid: d8b960d4048e3da4d943ef7633adda0c, type: 2}
+  whiteFlash: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
   restoreDefaultMatTime: 0.2
+  StartedExplosion: 0
 --- !u!1 &7126584815537045928
 GameObject:
   m_ObjectHideFlags: 0

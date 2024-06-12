@@ -21,6 +21,7 @@ public class PlayerController : Singleton<PlayerController>
     private SpriteRenderer mySpriteRenderer;
     private Knockback knockback;
     private float startingMoveSpeed;
+    private MovableObject currentMovableObject;
 
     private bool facingLeft = false;
     private bool isDashing = false;
@@ -42,6 +43,8 @@ public class PlayerController : Singleton<PlayerController>
         playerControls.Combat.Dash.performed += _ => Dash();
         playerControls.Movement.Run.performed += _ => RunningStateChange();
         playerControls.Movement.Run.canceled += _ => RunningStateChange();
+        playerControls.MoveObject.MoveObject.started += _ => StartMovingObject();
+        playerControls.MoveObject.MoveObject.canceled += _ => StopMovingObject();
         startingMoveSpeed = moveSpeed;
     }
 
@@ -133,5 +136,34 @@ public class PlayerController : Singleton<PlayerController>
         myTrailRenderer.emitting=false;
         yield return new WaitForSeconds(dashCD);
         isDashing=false;
+    }
+
+    private void StartMovingObject() // 추가된 메소드
+    {
+        if (currentMovableObject != null) {
+            currentMovableObject.StartMoving();
+        }
+    }
+
+    private void StopMovingObject() // 추가된 메소드
+    {
+        if (currentMovableObject != null) {
+            currentMovableObject.StopMoving();
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision) // 추가된 메소드
+    {
+        if (collision.gameObject.TryGetComponent<MovableObject>(out MovableObject movableObject)) {
+            currentMovableObject = movableObject;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision) // 추가된 메소드
+    {
+        if (collision.gameObject.TryGetComponent<MovableObject>(out MovableObject movableObject) && currentMovableObject == movableObject) {
+            currentMovableObject.StopMoving(); // 오브젝트 이동 정지
+            currentMovableObject = null;
+        }
     }
 }
