@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4589833409625758284}
   - component: {fileID: 7339897471925991439}
   - component: {fileID: 1196252828932193593}
+  - component: {fileID: 6222676148310384004}
   m_Layer: 0
   m_Name: button
   m_TagString: Untagged
@@ -114,9 +115,23 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.004293442, y: 0.09020424}
-  m_Size: {x: 0.59622574, y: 0.59622574}
+  m_Offset: {x: 0.007966995, y: 0.0764122}
+  m_Size: {x: 0.3632927, y: 0.37861633}
   m_Direction: 0
+--- !u!114 &6222676148310384004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3294908763386806970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ace8139e3407db45874e51a43d459cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressed: {fileID: 349552654, guid: f68d1da17510f6d469a5e150f862f3bf, type: 3}
+  notPressed: {fileID: -503590563, guid: f68d1da17510f6d469a5e150f862f3bf, type: 3}

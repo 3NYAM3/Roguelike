@@ -43,7 +43,7 @@ public class PlayerController : Singleton<PlayerController>
         playerControls.Combat.Dash.performed += _ => Dash();
         playerControls.Movement.Run.performed += _ => RunningStateChange();
         playerControls.Movement.Run.canceled += _ => RunningStateChange();
-        playerControls.MoveObject.MoveObject.started += _ => StartMovingObject();
+        playerControls.MoveObject.MoveObject.performed += _ => StartMovingObject();
         playerControls.MoveObject.MoveObject.canceled += _ => StopMovingObject();
         startingMoveSpeed = moveSpeed;
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MovableObject : MonoBehaviour {
-    public float moveSpeed = 5f;
+    public float moveSpeed = 3f;
     private Rigidbody2D rb;
     private bool isMoving = false; // 추가된 부분
 
