@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MapManagement : MonoBehaviour {
     [SerializeField] private List<GameObject> walls;
-    
+
     private PolygonCollider2D room;
     private bool isWallActive = false;
     private GameObject[] enemies;
@@ -32,7 +32,7 @@ public class MapManagement : MonoBehaviour {
 
     private bool CheckEnemiesInRoom() {
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        
+
         foreach (GameObject enemy in enemies) {
             if (room.OverlapPoint(enemy.transform.position)) {
                 return true;
@@ -46,14 +46,14 @@ public class MapManagement : MonoBehaviour {
     }
 
     private void ChangeWallActive() {
-        if(!EnterRoom()) {
+        if (!EnterRoom()) {
             isWallActive = false;
-        }else if (!isWallActive) {
+        } else if (!isWallActive) {
             isWallActive = true;
             foreach (var wall in walls) {
                 wall.SetActive(true);
             }
-        } else if(isWallActive && !enemyInRoom){
+        } else if (isWallActive && !enemyInRoom) {
             isWallActive = false;
             foreach (var wall in walls) {
                 wall.SetActive(false);

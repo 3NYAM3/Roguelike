@@ -16,7 +16,7 @@ public class PlayerHealth : MonoBehaviour {
 
 
     private void Awake() {
-        
+
 
         flash = GetComponent<Flash>();
         knockback = GetComponent<Knockback>();
@@ -39,14 +39,14 @@ public class PlayerHealth : MonoBehaviour {
             Debug.Log(enemy + "가 플레이어에게 " + enemy.enemyInfo.enemyDamage + "데미지를 입혔습니다. ");
         }
         if (other.gameObject.CompareTag("Enemy") && canTakeDamege) {
-            if(enemy.enemyInfo.attackType == AttackType.Boomer) {
+            if (enemy.enemyInfo.attackType == AttackType.Boomer) {
                 return;
             }
             TakeDamage(enemy.enemyInfo.enemyDamage, other.transform);
         }
     }
 
-   public void HpOrbGet() {
+    public void HpOrbGet() {
         if (currentHealth < maxHealth) {
             currentHealth += 10;
             UpdateHPSlider();
@@ -55,8 +55,8 @@ public class PlayerHealth : MonoBehaviour {
 
     public void TakeDamage(float damage, Transform other) {
         if (!canTakeDamege) {
-            if(other.GetComponent<EnemyAI>().enemyInfo.attackType != AttackType.Boomer) {
-                return ;
+            if (other.GetComponent<EnemyAI>().enemyInfo.attackType != AttackType.Boomer) {
+                return;
             }
         }
 
@@ -64,7 +64,7 @@ public class PlayerHealth : MonoBehaviour {
         StartCoroutine(flash.FlashRoutine());
         canTakeDamege = false;
         currentHealth -= damage;
-        Debug.Log("현재 플레이어의 체력 : "+currentHealth);
+        Debug.Log("현재 플레이어의 체력 : " + currentHealth);
         StartCoroutine(DamageRecoveryRoutine());
         UpdateHPSlider();
         DetectDeath();
@@ -82,7 +82,7 @@ public class PlayerHealth : MonoBehaviour {
     }
 
     private void UpdateHPSlider() {
-        if(HPSlider == null) {
+        if (HPSlider == null) {
             HPSlider = GameObject.Find("HPbar").GetComponent<Slider>();
         }
         HPSlider.maxValue = maxHealth;

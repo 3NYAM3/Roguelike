@@ -11,6 +11,7 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T> {
             Destroy(this.gameObject);
         } else {
             instance = (T)this;
+            
         }
 
         if (!gameObject.transform.parent) {

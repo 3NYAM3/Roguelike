@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PauseManagement : MonoBehaviour
-{
-    [SerializeField]private GameObject pauseMenuUI;
+public class PauseManagement : MonoBehaviour {
+    [SerializeField] private GameObject pauseMenuUI;
     [SerializeField] private GameObject btslQ;
     [SerializeField] private GameObject qgQ;
 
@@ -15,7 +14,7 @@ public class PauseManagement : MonoBehaviour
 
 
     private void Awake() {
-        pauseMenuUI.SetActive(false);  
+        pauseMenuUI.SetActive(false);
     }
 
     void Update() {
@@ -30,31 +29,31 @@ public class PauseManagement : MonoBehaviour
 
     public void Resume() {
         pauseMenuUI.SetActive(false);
-        Time.timeScale = 1f; 
+        Time.timeScale = 1f;
         isPaused = false;
     }
 
     private void Pause() {
         pauseMenuUI.SetActive(true);
-        Time.timeScale = 0f; 
+        Time.timeScale = 0f;
         isPaused = true;
     }
     public void BackToStageListQ() {
         if (!btslQisOpen) {
             btslQ.SetActive(true);
             btslQisOpen = true;
-        }else {
+        } else {
             btslQ.SetActive(false);
             btslQisOpen = false;
         }
-        
+
     }
 
 
     public void BackToStageList() {
         Time.timeScale = 1f;
         PlayerController.DestroyInstance();
-        SceneManager.LoadScene("MapList"); 
+        SceneManager.LoadScene("MapList");
     }
 
     public void QuitGameQ() {

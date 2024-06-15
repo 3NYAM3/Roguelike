@@ -8,15 +8,21 @@ public class StageClear : MonoBehaviour {
     [SerializeField] private GameObject result;
     [SerializeField] private Sprite filledStar;
     [SerializeField] private Sprite emptyStar;
+    [SerializeField] private GameObject pressE;
+
 
     private CoinManager coinManager;
     private PlayerHealth health;
     private bool isPlayerInRange = false;
+    private bool clear =false;
     private float holdTime = 0f;
     public int coinCount { get; private set; }
     public float currentHpPercent { get; private set; }
-    
 
+    private void Awake() {
+        pressE.SetActive(false);
+        result.SetActive(false);
+    }
     void Start() {
         if (coinManagerObject != null) {
             coinManager = coinManagerObject.GetComponent<CoinManager>();
@@ -40,36 +46,39 @@ public class StageClear : MonoBehaviour {
             }
         }
     }
-
-    void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.collider.CompareTag("Player")) {
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.CompareTag("Player")) {
             isPlayerInRange = true;
+            Debug.Log("접촉됨");
+            if (!clear) {
+                pressE.SetActive(true);
+            }
         }
     }
 
-    void OnCollisionExit2D(Collision2D collision) {
-        if (collision.collider.CompareTag("Player")) {
+    private void OnTriggerExit2D(Collider2D other) {
+        if (other.CompareTag("Player")) {
             isPlayerInRange = false;
+            pressE.SetActive(false);
             holdTime = 0f;
         }
     }
-
     void StageComplete() {
         if (coinManager != null) {
             coinCount = coinManager.GetCoin();
             currentHpPercent = health.getHpPercent();
             Debug.Log("획득한 코인 개수: " + coinCount);
-            Debug.Log("HP% : "+ currentHpPercent);
-
+            Debug.Log("HP% : " + currentHpPercent);
+            clear = true;
             int star = 1;
-            if(coinCount == 30) {
+            if (coinCount == 30) {
                 star++;
             }
             if (currentHpPercent >= 0.5f) {
                 star++;
             }
-
-            Transform starGroup = result.transform.Find("Stars");
+            result.SetActive(true);
+            Transform starGroup = result.transform.GetChild(0).GetChild(1);
 
             if (starGroup != null) {
                 for (int i = 0; i < star; i++) {
@@ -82,9 +91,12 @@ public class StageClear : MonoBehaviour {
                 Debug.LogError("StarGroup을 찾을 수 없습니다.");
             }
 
-            result.SetActive(true);
-
-            StarManagement.Instance.SetStarsForMap(mapIndex, star);
+            
+            int currentStar = PlayerPrefs.GetInt("MapStars" + mapIndex, 0);
+            if(currentStar < star) {
+                PlayerPrefs.SetInt("MapStars" + mapIndex, star);
+            }
+            
 
         } else {
             Debug.LogError("CoinManagement 컴포넌트를 찾을 수 없습니다.");

@@ -4,18 +4,21 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class StarManagement : Singleton<StarManagement> {
+public class StarManagement : MonoBehaviour {
 
-    //  protected override void Awake() {
-    //      base.Awake();
-    //  }
-    
     private List<int> mapStars;
 
     private void Update() {
         if (Input.GetKey(KeyCode.LeftControl)) {
-            if(Input.GetKey(KeyCode.R)&& Input.GetKey(KeyCode.R)) {
+            if (Input.GetKey(KeyCode.R) && Input.GetKey(KeyCode.S)) {
                 ResetAllStars();
+            }
+        }
+        if (Input.GetKey(KeyCode.LeftControl)) {
+            if (Input.GetKey(KeyCode.G) && Input.GetKey(KeyCode.A)) {
+                if (Input.GetKey(KeyCode.S)) {
+                    ResetAllStars();
+                }
             }
         }
     }
@@ -52,6 +55,7 @@ public class StarManagement : Singleton<StarManagement> {
             mapStars[i] = 0;
         }
         SaveStars();
+        Debug.Log("sdf");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 

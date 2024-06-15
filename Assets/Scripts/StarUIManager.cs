@@ -3,23 +3,41 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class StarUIManager : MonoBehaviour {
-    [SerializeField] private List<GameObject> map;
+
     [SerializeField] private Sprite emptyStar;
     [SerializeField] private Sprite filledStar;
 
-    void Start() {
-        UpdateAllStars();
-    }
 
+    private List<GameObject> stageList;
+
+    private void Awake() {
+        stageList = new List<GameObject>();
+
+        int k = 1;
+        while (true) {
+            GameObject stage = GameObject.Find("Stage" + k);
+            if (stage != null) {
+                stageList.Add(stage);
+            } else {
+                break;
+            }
+            Debug.Log(stageList[k - 1] + "sdfsdf");
+            k++;
+        }
+    }
     public void UpdateAllStars() {
-        for (int i = 0; i < map.Count; i++) {
+        for (int i = 0; i < stageList.Count; i++) {
             UpdateStars(i);
         }
     }
 
     public void UpdateStars(int mapIndex) {
-        int starCount = StarManagement.Instance.GetStarsForMap(mapIndex);
-        Transform starGroup = map[mapIndex].transform.Find("Stars");
+        if (mapIndex >= stageList.Count || mapIndex < 0) {
+            Debug.LogError("맵 인덱스가 잘못되었습니다.");
+            return;
+        }
+        int starCount = GetComponent<StarManagement>().GetStarsForMap(mapIndex);
+        Transform starGroup = stageList[mapIndex].transform.Find("Stars");
 
         if (starGroup != null) {
             for (int i = 0; i < starGroup.childCount; i++) {

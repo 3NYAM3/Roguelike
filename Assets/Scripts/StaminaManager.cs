@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StaminaManager : Singleton<StaminaManager>
-{
-    public int CurrentStamina {  get; private set; }
+public class StaminaManager : Singleton<StaminaManager> {
+    public int CurrentStamina { get; private set; }
 
     [SerializeField] private Sprite full, empty;
-    [SerializeField] private int staminaChargeDelay=3;
+    [SerializeField] private int staminaChargeDelay = 3;
 
     private Transform staminaContainer;
     private int startingStamina = 3;
-    private int maxStamina ;
+    private int maxStamina;
 
     protected override void Awake() {
         base.Awake();
@@ -31,7 +30,7 @@ public class StaminaManager : Singleton<StaminaManager>
     }
 
     public void RefreshStamina() {
-        if(CurrentStamina < maxStamina) {
+        if (CurrentStamina < maxStamina) {
             CurrentStamina++;
         }
         UpdateStaminaImages();
@@ -45,8 +44,8 @@ public class StaminaManager : Singleton<StaminaManager>
     }
 
     private void UpdateStaminaImages() {
-        for(int i=0;i<maxStamina;i++) {
-            if(i<=CurrentStamina-1) {
+        for (int i = 0; i < maxStamina; i++) {
+            if (i <= CurrentStamina - 1) {
                 staminaContainer.GetChild(i).GetComponent<Image>().sprite = full;
             } else {
                 staminaContainer.GetChild(i).GetComponent<Image>().sprite = empty;

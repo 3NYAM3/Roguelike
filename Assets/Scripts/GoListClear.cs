@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GoListClear : MonoBehaviour
-{
+public class GoListClear : MonoBehaviour {
     public void GoList() {
+        PlayerController.DestroyInstance();
         SceneManager.LoadScene("MapList");
     }
 }
