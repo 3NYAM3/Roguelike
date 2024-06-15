@@ -22,6 +22,8 @@ public class PickUp : MonoBehaviour
     private Vector3 moveDir;
     private Rigidbody2D rb;
     private bool canMove = false;
+    private PlayerHealth playerHealth;
+    private CoinManager coinManager;
 
  
 
@@ -30,6 +32,8 @@ public class PickUp : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        playerHealth = PlayerController.Instance.GetComponent<PlayerHealth>();
+        coinManager = FindAnyObjectByType<CoinManager>();
     }
 
     private void Start()
@@ -106,11 +110,11 @@ public class PickUp : MonoBehaviour
     private void DetectPickupType() {
         switch(pickUpType) {
             case PickUpType.Coin:
-                CoinManager.Instance.UPdateCurrentCoin();
+                coinManager.UPdateCurrentCoin();
                 Debug.Log("Coin");
                 break;
             case PickUpType.HPOrb:
-                PlayerHealth.Instance.HpOrbGet();
+                playerHealth.HpOrbGet();
                 Debug.Log(" HPorb");
                 break;
             case PickUpType.Cube:

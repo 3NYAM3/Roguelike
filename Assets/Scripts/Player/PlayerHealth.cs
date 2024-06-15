@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerHealth : Singleton<PlayerHealth> {
+public class PlayerHealth : MonoBehaviour {
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private float knockBackAmount = 10f;
     [SerializeField] private float damageRecovoryTime = 1f;
@@ -15,8 +15,8 @@ public class PlayerHealth : Singleton<PlayerHealth> {
     private Flash flash;
 
 
-    protected override void Awake() {
-        base.Awake();
+    private void Awake() {
+        
 
         flash = GetComponent<Flash>();
         knockback = GetComponent<Knockback>();

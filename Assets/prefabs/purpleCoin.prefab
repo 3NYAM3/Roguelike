@@ -183,6 +183,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e0a7efc96d23ca4e85740d4aa4b5b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pickUpType: 0
   pickUpDistance: 6
   accelartionRate: 0.5
   moveSpeed: 6
+  animCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  heightY: 1.5
+  popDuration: 1
+  coin: {fileID: 2142155265735808430, guid: 913de99300553a940954aafee1604c41, type: 3}

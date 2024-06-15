@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class CoinManager : Singleton<CoinManager>
+public class CoinManager : MonoBehaviour
 {
     private TMP_Text coinText;
-    private int curretnCoin = 0;
+    private int curretnCoin;
 
     const string COIN_AMOUNT_TEXT = "coin amount";
+    private void Awake() {
+        curretnCoin = 0;
+    }
+
+    private void Start() {
+        curretnCoin = 0;
+    }
 
     public void UPdateCurrentCoin() {
         curretnCoin++;
@@ -18,5 +25,9 @@ public class CoinManager : Singleton<CoinManager>
         }
 
         coinText.text = curretnCoin.ToString()+"/20";
+    }
+
+    public int GetCoin() {
+        return curretnCoin;
     }
 }
