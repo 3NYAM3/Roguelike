@@ -29,6 +29,10 @@ public class PlayerHealth : MonoBehaviour {
         UpdateHPSlider();
     }
 
+    public float getHpPercent() {
+        return currentHealth / maxHealth;
+    }
+
     private void OnCollisionStay2D(Collision2D other) {
         EnemyAI enemy = other.gameObject.GetComponent<EnemyAI>();
         if (enemy) {

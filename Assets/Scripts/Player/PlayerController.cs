@@ -36,6 +36,8 @@ public class PlayerController : Singleton<PlayerController>
         myAnimator = GetComponent<Animator>();
         mySpriteRenderer = GetComponent<SpriteRenderer>();
         knockback = GetComponent<Knockback>();
+        
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -166,4 +168,12 @@ public class PlayerController : Singleton<PlayerController>
             currentMovableObject = null;
         }
     }
+
+    public static void DestroyInstance() {
+        if (Instance != null) {
+            Destroy(Instance.gameObject);
+            Instance = null;
+        }
+    }
+
 }

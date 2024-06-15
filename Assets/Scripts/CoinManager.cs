@@ -7,6 +7,7 @@ public class CoinManager : MonoBehaviour
 {
     private TMP_Text coinText;
     private int curretnCoin;
+    private int maxCoin=30;
 
     const string COIN_AMOUNT_TEXT = "coin amount";
     private void Awake() {
@@ -24,7 +25,7 @@ public class CoinManager : MonoBehaviour
             coinText = GameObject.Find(COIN_AMOUNT_TEXT).GetComponent<TMP_Text>();
         }
 
-        coinText.text = curretnCoin.ToString()+"/20";
+        coinText.text = curretnCoin.ToString()+"/"+maxCoin;
     }
 
     public int GetCoin() {

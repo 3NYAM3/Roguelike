@@ -52,7 +52,8 @@ public class PauseManagement : MonoBehaviour
 
 
     public void BackToStageList() {
-        Time.timeScale = 1f; 
+        Time.timeScale = 1f;
+        PlayerController.DestroyInstance();
         SceneManager.LoadScene("MapList"); 
     }
 
