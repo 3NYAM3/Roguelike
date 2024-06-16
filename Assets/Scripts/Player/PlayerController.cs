@@ -13,6 +13,8 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] private float dashSpeed = 4f;
     [SerializeField] private TrailRenderer myTrailRenderer;
     [SerializeField] private Transform weaponCollider;
+    [SerializeField] private AudioClip moveSound;
+    [SerializeField] private AudioClip dashSound;
 
     private PlayerControls playerControls;
     private Vector2 movement;
@@ -22,10 +24,12 @@ public class PlayerController : Singleton<PlayerController>
     private Knockback knockback;
     private float startingMoveSpeed;
     private MovableObject currentMovableObject;
+    private AudioSource audioSource;
 
     private bool facingLeft = false;
     private bool isDashing = false;
     private bool isRunning = false;
+    private bool isMoving = false;
 
     protected override void Awake()
     {
@@ -36,7 +40,7 @@ public class PlayerController : Singleton<PlayerController>
         myAnimator = GetComponent<Animator>();
         mySpriteRenderer = GetComponent<SpriteRenderer>();
         knockback = GetComponent<Knockback>();
-        
+        audioSource = GetComponent<AudioSource>();
         DontDestroyOnLoad(gameObject);
     }
 
@@ -85,6 +89,14 @@ public class PlayerController : Singleton<PlayerController>
         if (knockback.GettingKnockedBack) { return; }
         float currentSpeed = isRunning ? moveSpeed * runSpeed : moveSpeed;
         rb.MovePosition(rb.position + movement * (currentSpeed * Time.fixedDeltaTime));
+
+        if (movement != Vector2.zero && !isMoving) {
+            isMoving = true;
+            PlayMoveSound();
+        } else if (movement == Vector2.zero && isMoving) {
+            isMoving = false;
+            StopMoveSound();
+        }
     }
 
     private void RunningStateChange()
@@ -121,6 +133,7 @@ public class PlayerController : Singleton<PlayerController>
         if(!isDashing && StaminaManager.Instance.CurrentStamina > 0)
         {
             StaminaManager.Instance.UseStamina();
+            PlayDashSound();
 
             isDashing = true;
             moveSpeed *= dashSpeed;
@@ -140,31 +153,31 @@ public class PlayerController : Singleton<PlayerController>
         isDashing=false;
     }
 
-    private void StartMovingObject() // 추가된 메소드
+    private void StartMovingObject()
     {
         if (currentMovableObject != null) {
             currentMovableObject.StartMoving();
         }
     }
 
-    private void StopMovingObject() // 추가된 메소드
+    private void StopMovingObject() 
     {
         if (currentMovableObject != null) {
             currentMovableObject.StopMoving();
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) // 추가된 메소드
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.TryGetComponent<MovableObject>(out MovableObject movableObject)) {
             currentMovableObject = movableObject;
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision) // 추가된 메소드
+    private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.TryGetComponent<MovableObject>(out MovableObject movableObject) && currentMovableObject == movableObject) {
-            currentMovableObject.StopMoving(); // 오브젝트 이동 정지
+            currentMovableObject.StopMoving();
             currentMovableObject = null;
         }
     }
@@ -173,6 +186,33 @@ public class PlayerController : Singleton<PlayerController>
         if (Instance != null) {
             Destroy(Instance.gameObject);
             Instance = null;
+        }
+    }
+
+
+
+    private void PlayMoveSound()
+    {
+        if (moveSound != null) {
+            audioSource.clip = moveSound;
+            audioSource.loop = true;
+            audioSource.volume = 0.5f;
+            audioSource.Play();
+        }
+    }
+
+    private void StopMoveSound()
+    {
+        if (audioSource.isPlaying && audioSource.clip == moveSound) {
+            audioSource.Stop();
+        }
+    }
+
+    private void PlayDashSound()
+    {
+        if (dashSound != null) {
+            audioSource.volume = 0.8f;
+            audioSource.PlayOneShot(dashSound);
         }
     }
 

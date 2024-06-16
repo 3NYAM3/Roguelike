@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ListManager : MonoBehaviour {
+    [SerializeField] private TMP_Text starText;
+        
     private GameObject infoStage;
     private StarUIManager starUIManager;
     private List<GameObject> stageList;
@@ -13,6 +16,7 @@ public class ListManager : MonoBehaviour {
     private Button playButton;
     private bool isInfoOpen = false;
     private int activeStage = 999;
+    private int allStars = 0;
 
 
 
@@ -71,6 +75,9 @@ public class ListManager : MonoBehaviour {
                 stageList[i+1].SetActive(true);
             }
         }
+
+        allStars = LoadAllStars();
+        starText.SetText(allStars.ToString()+"/"+stageList.Count*3);
     }
 
     private void OnDisable() {
@@ -134,4 +141,12 @@ public class ListManager : MonoBehaviour {
     public int GetStageCount() {
         return stageList.Count;
     }
+    public int LoadAllStars() {
+        int cnt = 0;
+        for (int i = 0; i < stageList.Count; i++) {
+            cnt+=PlayerPrefs.GetInt("MapStars" + i, 0);
+        }
+        return cnt;
+    }
+
 }

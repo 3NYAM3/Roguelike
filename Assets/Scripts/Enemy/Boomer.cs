@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Boomer : MonoBehaviour, IEnemy {
     [SerializeField] private GameObject explosionVFX;
+    [SerializeField] private AudioClip explosionAudio;
 
     private EnemyInfo enemyInfo;
     private Animator boomAnimator;
@@ -11,6 +12,7 @@ public class Boomer : MonoBehaviour, IEnemy {
     private GameObject explosionRange;
     private Rigidbody2D rb;
     private Flash flash;
+    private AudioSource audioSource;
     
     public EnemyInfo EnemyInfo {
         private get {
@@ -24,6 +26,7 @@ public class Boomer : MonoBehaviour, IEnemy {
         flash =GetComponent<Flash>();
         rb = GetComponent<Rigidbody2D>();
         boomAnimator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
         explosionWarn = transform.GetChild(0).gameObject;
         explosionRange = transform.GetChild(2).gameObject;
         explosionWarn.SetActive(false);
@@ -52,6 +55,8 @@ public class Boomer : MonoBehaviour, IEnemy {
             }
         }
 
+        audioSource.volume = 0.5f;
+        audioSource.PlayOneShot(explosionAudio);
         GameObject vfx = Instantiate(explosionVFX, transform.position, Quaternion.identity);
 
         Destroy(gameObject);

@@ -18,13 +18,13 @@ public class PickUp : MonoBehaviour
     [SerializeField] private AnimationCurve animCurve;
     [SerializeField] private float heightY = 1.5f;
     [SerializeField] private float popDuration = 1f;
+    [SerializeField] private AudioClip coinAudio;
 
     private Vector3 moveDir;
     private Rigidbody2D rb;
     private bool canMove = false;
     private PlayerHealth playerHealth;
     private CoinManager coinManager;
-
  
 
     const string COIN_AMOUNT_TEXT = "COIN AMOUNT TEXT";
@@ -78,10 +78,14 @@ public class PickUp : MonoBehaviour
     {
         if (other.gameObject.GetComponent<PlayerController>())
         {
+
             DetectPickupType();
             Destroy(gameObject);
+            
         }
     }
+
+    
 
     private IEnumerator AnimCurveSpawnRoutine()
     {
@@ -111,6 +115,7 @@ public class PickUp : MonoBehaviour
         switch(pickUpType) {
             case PickUpType.Coin:
                 coinManager.UPdateCurrentCoin();
+                PlayerController.Instance.transform.GetChild(3).GetComponent<CoinPickUpSound>().coinSound();
                 Debug.Log("Coin");
                 break;
             case PickUpType.HPOrb:
