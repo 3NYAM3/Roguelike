@@ -25,22 +25,26 @@ public class PlayerController : Singleton<PlayerController>
     private float startingMoveSpeed;
     private MovableObject currentMovableObject;
     private AudioSource audioSource;
+    private StaminaManager staminaManager;
 
     private bool facingLeft = false;
     private bool isDashing = false;
     private bool isRunning = false;
     private bool isMoving = false;
+    public bool isDeath = false; 
 
     protected override void Awake()
     {
         base.Awake();
 
+        isDeath = false;
         playerControls = new PlayerControls();
         rb = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         mySpriteRenderer = GetComponent<SpriteRenderer>();
         knockback = GetComponent<Knockback>();
         audioSource = GetComponent<AudioSource>();
+        staminaManager = GetComponent<StaminaManager>();
         DontDestroyOnLoad(gameObject);
     }
 
@@ -67,8 +71,11 @@ public class PlayerController : Singleton<PlayerController>
 
     private void FixedUpdate()
     {
-        AdjustPlayerFacingDirection();
-        Move();
+        if (!isDeath) {
+            AdjustPlayerFacingDirection();
+            Move();
+        }
+               
     }
 
     public Transform GetWeaponCollider()
@@ -130,9 +137,9 @@ public class PlayerController : Singleton<PlayerController>
 
     private void Dash()
     {
-        if(!isDashing && StaminaManager.Instance.CurrentStamina > 0)
+        if(!isDashing && staminaManager.CurrentStamina > 0)
         {
-            StaminaManager.Instance.UseStamina();
+            staminaManager.UseStamina();
             PlayDashSound();
 
             isDashing = true;
@@ -215,5 +222,4 @@ public class PlayerController : Singleton<PlayerController>
             audioSource.PlayOneShot(dashSound);
         }
     }
-
 }

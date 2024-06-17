@@ -3,19 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StaminaManager : Singleton<StaminaManager> {
+public class StaminaManager : MonoBehaviour {
     public int CurrentStamina { get; private set; }
 
     [SerializeField] private Sprite full, empty;
-    [SerializeField] private int staminaChargeDelay = 3;
-
+    
+    private int staminaChargeDelay = 2;
     private Transform staminaContainer;
     private int startingStamina = 3;
     private int maxStamina;
 
-    protected override void Awake() {
-        base.Awake();
-
+    private void Awake() {
         maxStamina = startingStamina;
         CurrentStamina = startingStamina;
     }

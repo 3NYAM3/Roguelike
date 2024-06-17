@@ -4,15 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour {
-    [SerializeField] private int maxHealth = 100;
+    [SerializeField] private int maxHealth = 130;
     [SerializeField] private float knockBackAmount = 10f;
     [SerializeField] private float damageRecovoryTime = 1f;
+    [SerializeField] private GameObject deathUI;
 
     private Slider HPSlider;
     private float currentHealth;
     private bool canTakeDamege = true;
     private Knockback knockback;
     private Flash flash;
+ 
 
 
     private void Awake() {
@@ -20,7 +22,7 @@ public class PlayerHealth : MonoBehaviour {
 
         flash = GetComponent<Flash>();
         knockback = GetComponent<Knockback>();
-
+        deathUI.SetActive(false);
     }
 
     private void Start() {
@@ -71,11 +73,15 @@ public class PlayerHealth : MonoBehaviour {
     }
     private void DetectDeath() {
         if (currentHealth <= 0) {
-            currentHealth = 0;
+            Time.timeScale = 0f;
             Debug.Log("플레이어 사망~~~~~~");
-            //Destroy(gameObject);
+            currentHealth = 0;
+            PlayerController.Instance.isDeath = true;
+            deathUI.SetActive(true);
         }
     }
+
+
     private IEnumerator DamageRecoveryRoutine() {
         yield return new WaitForSeconds(damageRecovoryTime);
         canTakeDamege = true;
