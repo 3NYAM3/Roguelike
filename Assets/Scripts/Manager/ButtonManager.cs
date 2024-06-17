@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ButtonManager : MonoBehaviour
-{
+public class ButtonManager : MonoBehaviour {
     [SerializeField] private Sprite pressed, notPressed;
 
     private SpriteRenderer spriteRenderer;
@@ -25,7 +24,7 @@ public class ButtonManager : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision) {
         if (collision.gameObject.CompareTag("MovableObject") || collision.gameObject.CompareTag("Player")) {
             spriteRenderer.sprite = notPressed;
-            IsPressed=false;
+            IsPressed = false;
         }
     }
 }

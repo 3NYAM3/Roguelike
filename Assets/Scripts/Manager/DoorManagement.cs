@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoorManagement : MonoBehaviour
-{
+public class DoorManagement : MonoBehaviour {
     [SerializeField] private List<GameObject> btns;
     [SerializeField] private GameObject doorVFX;
 
-    private bool isAllBtnsPressed= false;
+    private bool isAllBtnsPressed = false;
 
     private void Update() {
         isAllBtnsPressed = CheckBtnsPressed();
@@ -29,7 +28,7 @@ public class DoorManagement : MonoBehaviour
 
     private void OpenDoor() {
         GameObject vfx = Instantiate(doorVFX, transform.position, transform.rotation);
-        Destroy(vfx,1f);
+        Destroy(vfx, 1f);
         Destroy(gameObject);
     }
 }

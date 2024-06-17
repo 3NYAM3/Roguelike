@@ -5,38 +5,33 @@ using UnityEngine;
 public class MovableObject : MonoBehaviour {
     public float moveSpeed = 3f;
     private Rigidbody2D rb;
-    private bool isMoving = false; // 추가된 부분
+    private bool isMoving = false;
 
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    private void Update() // 수정된 메소드
-    {
+    private void Update() {
         if (isMoving) {
             Move();
         }
     }
 
-    public void StartMoving() // 추가된 메소드
-    {
+    public void StartMoving() {
         isMoving = true;
     }
 
-    public void StopMoving() // 추가된 메소드
-    {
+    public void StopMoving() {
         isMoving = false;
     }
 
-    public void Move() // 수정된 메소드
-    {
+    public void Move() {
         Vector2 direction = DetermineDirection();
         Vector2 newPosition = rb.position + direction * moveSpeed * Time.deltaTime;
         rb.MovePosition(newPosition);
     }
 
-    private Vector2 DetermineDirection() // 추가된 메소드
-    {
+    private Vector2 DetermineDirection() {
         Vector2 playerPosition = PlayerController.Instance.transform.position;
         Vector2 direction = Vector2.zero;
 

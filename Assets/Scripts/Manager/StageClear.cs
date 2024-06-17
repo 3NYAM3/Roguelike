@@ -65,6 +65,7 @@ public class StageClear : MonoBehaviour {
     }
     void StageComplete() {
         if (coinManager != null) {
+            pressE.SetActive(false );
             coinCount = coinManager.GetCoin();
             currentHpPercent = health.getHpPercent();
             Debug.Log("È¹µæÇÑ ÄÚÀÎ °³¼ö: " + coinCount);

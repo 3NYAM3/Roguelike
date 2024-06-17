@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PickUp : MonoBehaviour
-{
+public class PickUp : MonoBehaviour {
 
     private enum PickUpType {
         Coin,
-        HPOrb,
-        Cube
+        HPOrb
     }
     [SerializeField] private PickUpType pickUpType;
     [SerializeField] private float pickUpDistance = 5f;
@@ -25,39 +23,31 @@ public class PickUp : MonoBehaviour
     private bool canMove = false;
     private PlayerHealth playerHealth;
     private CoinManager coinManager;
- 
+
 
     const string COIN_AMOUNT_TEXT = "COIN AMOUNT TEXT";
 
-    private void Awake()
-    {
+    private void Awake() {
         rb = GetComponent<Rigidbody2D>();
         playerHealth = PlayerController.Instance.GetComponent<PlayerHealth>();
         coinManager = FindAnyObjectByType<CoinManager>();
     }
 
-    private void Start()
-    {
-        if (gameObject.CompareTag("AutoPickUp"))
-        {
+    private void Start() {
+        if (gameObject.CompareTag("AutoPickUp")) {
             StartCoroutine(AnimCurveSpawnRoutine());
         }
-            
+
     }
 
-    private void Update()
-    {
-        if (gameObject.CompareTag("AutoPickUp"))
-        {
+    private void Update() {
+        if (gameObject.CompareTag("AutoPickUp")) {
             Vector3 playerPos = PlayerController.Instance.transform.position;
 
-            if (Vector3.Distance(transform.position, playerPos) < pickUpDistance)
-            {
+            if (Vector3.Distance(transform.position, playerPos) < pickUpDistance) {
                 moveDir = (playerPos - transform.position).normalized;
                 moveSpeed += accelartionRate;
-            }
-            else
-            {
+            } else {
                 moveDir = Vector3.zero;
                 moveSpeed = 0;
             }
@@ -65,40 +55,32 @@ public class PickUp : MonoBehaviour
 
     }
 
-    private void FixedUpdate()
-    {
-        if(canMove)
-        {
+    private void FixedUpdate() {
+        if (canMove) {
             rb.velocity = moveDir * moveSpeed * Time.deltaTime;
         }
-        
+
     }
 
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (other.gameObject.GetComponent<PlayerController>())
-        {
-
+    private void OnTriggerStay2D(Collider2D other) {
+        if (other.gameObject.GetComponent<PlayerController>()) {
             DetectPickupType();
             Destroy(gameObject);
-            
         }
     }
 
-    
 
-    private IEnumerator AnimCurveSpawnRoutine()
-    {
+
+    private IEnumerator AnimCurveSpawnRoutine() {
         Vector2 startPoint = transform.position;
         float randomX = transform.position.x + Random.Range(-2f, 2f);
         float randomY = transform.position.y + Random.Range(-1f, 2f);
-        
+
         Vector2 endPoint = new Vector2(randomX, randomY);
 
         float timePassed = 0f;
 
-        while(timePassed<popDuration)
-        {
+        while (timePassed < popDuration) {
             timePassed += Time.deltaTime;
             float linearT = timePassed / popDuration;
             float heightT = animCurve.Evaluate(linearT);
@@ -112,7 +94,7 @@ public class PickUp : MonoBehaviour
     }
 
     private void DetectPickupType() {
-        switch(pickUpType) {
+        switch (pickUpType) {
             case PickUpType.Coin:
                 coinManager.UPdateCurrentCoin();
                 PlayerController.Instance.transform.GetChild(3).GetComponent<CoinPickUpSound>().coinSound();
@@ -121,9 +103,6 @@ public class PickUp : MonoBehaviour
             case PickUpType.HPOrb:
                 playerHealth.HpOrbGet();
                 Debug.Log(" HPorb");
-                break;
-            case PickUpType.Cube:
-                Debug.Log(" Cube");
                 break;
         }
     }

@@ -2,20 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Destructable : MonoBehaviour
-{
+public class Destructable : MonoBehaviour {
     [SerializeField] private GameObject destroyVFX;
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.GetComponent<DamageSource>() || other.gameObject.GetComponent<Projectile>())
-        {
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.gameObject.GetComponent<DamageSource>() || other.gameObject.GetComponent<Projectile>()) {
             GetComponent<PickUpSpawner>().DropItems();
             GameObject vfx = Instantiate(destroyVFX, transform.position, Quaternion.identity);
 
             Destroy(gameObject);
-            Destroy(vfx,1f);
+            Destroy(vfx, 1f);
         }
     }
-        
+
 }
